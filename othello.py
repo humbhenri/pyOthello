@@ -50,8 +50,7 @@ class Othello:
 
             self.now_playing.get_current_board ( self.board )
             
-            # Color positions
-            #print "Jogadas possiveis da cor :", self.now_playing.color
+            # Color positions            
             valid_moves = self.board.get_valid_moves( self.now_playing.color )
             
             for pos in valid_moves:
@@ -88,7 +87,7 @@ class Othello:
 
 	    # erase helping move places
             for pos in valid_moves:
-                if pos != move: # nao apaga a pedra do jogador
+                if pos != move: 
                     self.gui.clear_square ( pos )
             
             # pass turn

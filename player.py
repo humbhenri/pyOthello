@@ -5,17 +5,14 @@ Human and Computer classes
 
 import ui
 import board
-import pdb
 from copy import deepcopy
 import random
 
-##### Algumas constantes ##########
 INFINITY = 999999999
 MAX = 0
 MIN = 1
 BLACK = 1
 WHITE = 2
-###################################
 
 def id ( color ):
     if color == BLACK:
@@ -30,7 +27,7 @@ def change_color ( color ):
         return BLACK
 
 
-
+# this is bad
 def evaluate ( board, who ):
     """ Evaluate board, returns a score
     board - o tabuleiro
@@ -78,7 +75,7 @@ def evaluate ( board, who ):
             [15, 2, 2, 2, 2, 2, 2 , 15]]
 
     # static evaluation
-    temp = board.get_board()
+    temp = board.board
     score = 0
     enemy = change_color ( who )
     for i in range ( 8 ):

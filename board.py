@@ -7,80 +7,10 @@ Este arquivo implementa a logica do jogo Othello
 BLACK = 1
 WHITE = 2
 
-def unique(s):
-    """Return a list of the elements in s, but without duplicates.
-
-    For example, unique([1,2,3,1,2,3]) is some permutation of [1,2,3],
-    unique("abcabc") some permutation of ["a", "b", "c"], and
-    unique(([1, 2], [2, 3], [1, 2])) some permutation of
-    [[2, 3], [1, 2]].
-
-    For best speed, all sequence elements should be hashable.  Then
-    unique() will usually work in linear time.
-
-    If not possible, the sequence elements should enjoy a total
-    ordering, and if list(s).sort() doesn't raise TypeError it's
-    assumed that they do enjoy a total ordering.  Then unique() will
-    usually work in O(N*log2(N)) time.
-
-    If that's not possible either, the sequence elements must support
-    equality-testing.  Then unique() will usually work in quadratic
-    time.
-    """
-
-    n = len(s)
-    if n == 0:
-        return []
-
-    # Try using a dict first, as that's the fastest and will usually
-    # work.  If it doesn't work, it will usually fail quickly, so it
-    # usually doesn't cost much to *try* it.  It requires that all the
-    # sequence elements be hashable, and support equality comparison.
-    u = {}
-    try:
-        for x in s:
-            u[x] = 1
-    except TypeError:
-        del u  # move on to the next method
-    else:
-        return u.keys()
-
-    # We can't hash all the elements.  Second fastest is to sort,
-    # which brings the equal elements together; then duplicates are
-    # easy to weed out in a single pass.
-    # NOTE:  Python's list.sort() was designed to be efficient in the
-    # presence of many duplicate elements.  This isn't true of all
-    # sort functions in all languages or libraries, so this approach
-    # is more effective in Python than it may be elsewhere.
-    try:
-        t = list(s)
-        t.sort()
-    except TypeError:
-        del t  # move on to the next method
-    else:
-        assert n > 0
-        last = t[0]
-        lasti = i = 1
-        while i < n:
-            if t[i] != last:
-                t[lasti] = last = t[i]
-                lasti += 1
-            i += 1
-        return t[:lasti]
-
-    # Brute force is all that's left.
-    u = []
-    for x in s:
-        if x not in u:
-            u.append(x)
-    return u
-
 class Board:
     """ Rules of the game """
 
-    def __init__ ( self ):
-        
-        # inicia as estruturas de dados do tabuleiro        
+    def __init__ ( self ):              
         self.WHITE = WHITE
         self.BLACK = BLACK
         self.black_pieces = 2
@@ -97,7 +27,7 @@ class Board:
         self.board[4][3] = self.BLACK
         self.board[3][3] = self.WHITE
         self.board[4][4] = self.WHITE
-        self.valid_moves = []   # lista de jogadas validas para a rodada
+        self.valid_moves = []  
     
     def __getitem__ ( self, i, j):
         return self.board[i][j]
@@ -224,7 +154,7 @@ class Board:
                 if self.board[i][j] == color :
                     places = places + self.lookup ( i, j, color )
         
-        places = unique ( places )
+        places = list( set ( places ))
         self.valid_moves = places
         return places
 
@@ -235,8 +165,7 @@ class Board:
 
         # test if the move is correct
         if move in self.valid_moves:                        
-            self.board[move[0]][move[1]] = color            
-            # vira as pedras            
+            self.board[move[0]][move[1]] = color                     
             for i in range ( 1, 9 ):
                 self.flip ( i, move, color )
 
@@ -358,9 +287,3 @@ class Board:
         """
         return ( self.black_pieces, self.white_pieces )
 
-    def get_board ( self ):
-        """ Returns board (ugly, direct access, remove this) """
-
-        return self.board
-
-    
