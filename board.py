@@ -282,8 +282,32 @@ class Board:
             print 
 
 
-    def count_stones ( self ):
+    def count_stones( self ):
         """ Returns counters
         """
         return ( self.black_pieces, self.white_pieces )
+		
+	def get_count( self, color=None ):
+		if color == None:
+			return self.black_pieces + self.white_pieces
+		elif color == BLACK:
+			return self.black_pieces
+		else:
+			return self.white_pieces
+		
+	def compare( self, otherBoard ):
+		""" Return a board containing only the squares that are empty in one of the boards
+		and not empty on the other.
+		"""
+		diffBoard = board()
+		diffBoard.board[3][4] = 0
+		diffBoard.board[3][3] = 0
+		diffBoard.board[4][3] = 0
+		diffBoard.board[4][4] = 0
+		diffBoard.white_pieces = diffBoard.black_pieces = 0
+		for i in range( 8 ):
+			for j in range( 8 ):
+				if otherBoard.board[i][j] != self.board[i][j]:
+					diffBoard.board[i][j] = otherBoard.board[i][j]
+		return otherBoard
 

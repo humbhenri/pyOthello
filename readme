@@ -1,5 +1,7 @@
 ****************  Othello  *******************
 Simple othello game with computer oponent intended for simple ai learning purposes.
+References:
+* http://lurgee.net/reversi-code/
 
 License:
 GPL
