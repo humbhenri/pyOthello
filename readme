@@ -1,0 +1,17 @@
+****************  Othello  *******************
+Simple othello game with computer oponent intended for simple ai learning purposes.
+
+License:
+GPL
+
+To play:
+Run othello.py
+
+Dependencies:
+Python
+pygame - www.pygame.org
+
+humbhenri at gmail.com
+Humberto Henrique Campos Pinheiro
+
+Enjoy :)
