@@ -3,18 +3,12 @@
 Este arquivo implementa a logica do jogo Othello
 """ 
 
-
-BLACK = 1
-WHITE = 2
+from config import WHITE, BLACK
 
 class Board:
     """ Rules of the game """
 
-    def __init__ ( self ):              
-        self.WHITE = WHITE
-        self.BLACK = BLACK
-        self.black_pieces = 2
-        self.white_pieces = 2 
+    def __init__ ( self ):                      
         self.board = [ [0,0,0,0,0,0,0,0], \
                        [0,0,0,0,0,0,0,0], \
                        [0,0,0,0,0,0,0,0], \
@@ -23,10 +17,10 @@ class Board:
                        [0,0,0,0,0,0,0,0], \
                        [0,0,0,0,0,0,0,0], \
                        [0,0,0,0,0,0,0,0] ]
-        self.board[3][4] = self.BLACK
-        self.board[4][3] = self.BLACK
-        self.board[3][3] = self.WHITE
-        self.board[4][4] = self.WHITE
+        self.board[3][4] = BLACK
+        self.board[4][3] = BLACK
+        self.board[3][3] = WHITE
+        self.board[4][4] = WHITE
         self.valid_moves = []  
     
     def __getitem__ ( self, i, j):
@@ -37,10 +31,10 @@ class Board:
 	(horizontal, vertical, or diagonal) line between the piece specified by (row,
 	column, color) and another piece of the same color."""
         
-        if color == self.BLACK:
-            other = self.WHITE
+        if color == BLACK:
+            other = WHITE
         else:
-            other = self.BLACK
+            other = BLACK
 
         places = []
                 
@@ -142,10 +136,10 @@ class Board:
 	other color to determine if is possible to make a move. This method must be 
 	called before apply_move."""
         
-        if color == self.BLACK:
-            other = self.WHITE
+        if color == BLACK:
+            other = WHITE
         else:
-            other = self.BLACK
+            other = BLACK
 
         places = []
 
@@ -162,23 +156,11 @@ class Board:
     def apply_move ( self, move, color ):        
 	""" Determine if the move is correct and apply the changes in the game.
 	"""
-
-        # test if the move is correct
         if move in self.valid_moves:                        
             self.board[move[0]][move[1]] = color                     
             for i in range ( 1, 9 ):
                 self.flip ( i, move, color )
-
-        # update counters
-        self.black_pieces = 0
-        self.white_pieces = 0
-        for row in self.board:
-            for piece in row:
-                if piece == self.BLACK:
-                    self.black_pieces += 1
-                elif piece == self.WHITE:
-                    self.white_pieces += 1
-                
+        
                     
     def flip ( self, direction, position, color ):        
 	""" Flips (capturates) the pieces of the given color in the given direction
@@ -221,10 +203,10 @@ class Board:
         i = position[0] + row_inc
         j = position[1] + col_inc 
 
-        if color == self.WHITE:
-            other = self.BLACK
+        if color == WHITE:
+            other = BLACK
         else:
-            other = self.WHITE
+            other = WHITE
         
         if  i in range( 8 ) and j in range( 8 ) and self.board[i][j] == other:
             # assures there is at least one piece to flip
@@ -247,7 +229,7 @@ class Board:
     def get_changes ( self ):
 	""" Return black and white counters. """
         
-        blacks, whites = self.count_stones()
+        whites, blacks, empty = self.count_stones()
 
         return ( self.board, blacks, whites )
 
@@ -272,9 +254,9 @@ class Board:
         for i in range ( 8 ):
             print i, ' |',
             for j in range ( 8 ):                
-                if self.board[i][j] == self.BLACK:
+                if self.board[i][j] == BLACK:
                     print 'B',
-                elif self.board[i][j] == self.WHITE:
+                elif self.board[i][j] == WHITE:
                     print 'W',
                 else:
                     print 'E',
@@ -283,28 +265,31 @@ class Board:
 
 
     def count_stones( self ):
-        """ Returns counters
+        """ Returns the number of white pieces, black pieces and empty squares, in
+        this order.
         """
-        return ( self.black_pieces, self.white_pieces )
-		
-	def get_count( self, color=None ):
-		if color == None:
-			return self.black_pieces + self.white_pieces
-		elif color == BLACK:
-			return self.black_pieces
-		else:
-			return self.white_pieces
-		
+        whites = 0
+        blacks = 0
+        empty = 0
+        for i in range( 8 ):
+            for j in range( 8 ):
+                if self.board[i][j] == WHITE:
+                    whites += 1
+                elif self.board[i][j] == BLACK:
+                    blacks += 1
+                else:
+                    empty += 1
+        return whites, blacks, empty
+    
 	def compare( self, otherBoard ):
 		""" Return a board containing only the squares that are empty in one of the boards
 		and not empty on the other.
 		"""
-		diffBoard = board()
+		diffBoard = Board()
 		diffBoard.board[3][4] = 0
 		diffBoard.board[3][3] = 0
 		diffBoard.board[4][3] = 0
 		diffBoard.board[4][4] = 0
-		diffBoard.white_pieces = diffBoard.black_pieces = 0
 		for i in range( 8 ):
 			for j in range( 8 ):
 				if otherBoard.board[i][j] != self.board[i][j]:
