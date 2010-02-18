@@ -3,16 +3,12 @@
 Human and Computer classes
 """
 
-import ui
 import board
+import evaluator
+from config import *
 from copy import deepcopy
 import random
 
-INFINITY = 999999999
-MAX = 0
-MIN = 1
-BLACK = 1
-WHITE = 2
 
 def id ( color ):
     if color == BLACK:
@@ -25,74 +21,6 @@ def change_color ( color ):
         return WHITE
     else:
         return BLACK
-
-
-class Evaluator(object):	
-	WIPEOUT_SCORE = 1000 	#a move that results a player losing all pieces
-	PIECE_COUNT_WEIGHT = [0, 0, 0, 4, 1]
-	POTENTIAL_MOBILITY_WEIGHT= [5, 4, 3, 2, 0]
-	MOBILITY_WEIGHT = [7, 6, 5, 4, 0]
-	CORNER_WEIGHT= [35, 35, 35, 35, 0]
-	EDGE_WEIGHT = [0, 3, 4, 5, 0]
-	XSQUARE_WEIGHT = [-8, -8, -8, -8, 0]
-	
-	def __init__( self, player ):		
-		self.player = player
-		self.enemy = change_color( player )
-		
-	def score( self, startBoard, board, currentDepth, searchDepth ):
-		""" Determine the score of the given board for the specified player.
-		- startBoard the board before any move is made
-		- board the board to score
-		- currentDepth depth of this leaf in the game tree
-		- searchDepth depth used for searches. 
-		"""
-		sc = 0
-		blacks, whites = board.count_stones()
-		deltaBoard = board.compare( startBoard )		
-		deltaCount = deltaBoard.get_count()
-		
-		# check wipe out
-		if (self.player == WHITE and whites = 0) or (self.player == BLACK and blacks = 0):
-			return sc = -WIPEOUT_SCORE
-			
-		# determine weigths according to the number of pieces
-		piece_count = board.get_count()
-		band = 0
-		if piece_count <= 16: 
-			band = 0
-		elif piece_count <= 32: 
-			band = 1
-		elif piece_count <= 48: 
-			band = 2
-		elif piece_count <= 64 - currentDepth:
-			band = 3
-		elif:
-			band = 4
-		
-		if PIECE_COUNT_WEIGHT[band] != 0:
-			# piece differential
-			myScore = deltaBoard.get_count(self.player)
-			yourScore = deltaBoard.get_count(self.enemy)
-			sc = sc + PIECE_COUNT_WEIGHT[band] * ( myScore - yourScore )
-		
-		if CORNER_WEIGHT[band] != 0:
-			# corner differential
-			myScore = 0
-			yourScore = 0
-			for i in [0, 7]:
-				for j in [0, 7]:
-					if board.board[i][j] == self.player:
-						myScore += 1
-					else:
-						yourScore += 1
-					if myScore + yourScore >= deltaCount:
-						break
-				if myScore + yourScore >= deltaCount:
-					break
-			sc += CORNER_WEIGHT[band] * ( myScore - yourScore )
-		
-		return sc
 		
 
 # this is bad
