@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """ game.py Humberto Henrique Campos Pinheiro
-Este arquivo implementa a logica do jogo Othello
+Game logic.
 """ 
 
 from config import WHITE, BLACK, EMPTY
@@ -237,17 +237,17 @@ class Board:
 
     def game_ended ( self ):
         """ Is the game ended? """
+        # board full or wipeout
+        whites, blacks, empty = self.count_stones()
+        if whites == 0 or blacks == 0 or empty == 0:
+            return True
 
-        # if board is full or it's not possible to do moves anymore
-        # the game is over, the winner is the one with more pieces
-        for row in self.board:
-            for stone in row:
-                if stone == 0:
-                    # there is still a empty place
-                    return False
+        # no valid moves for both players
+        if self.valid_moves( BLACK ) == [] and self.valid_moves( WHITE ) == []:
+            return True
 
-        return True
-        
+        return False
+
 
     def print_board ( self ):
         """ Print the board: B - black, W - white, E - empty"""
@@ -316,3 +316,4 @@ class Board:
             newBoard = deepcopy( self )
             newBoard.apply_move( move, color )
             yield newBoard
+
