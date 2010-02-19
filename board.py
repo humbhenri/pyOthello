@@ -3,7 +3,8 @@
 Este arquivo implementa a logica do jogo Othello
 """ 
 
-from config import WHITE, BLACK
+from config import WHITE, BLACK, EMPTY
+from copy import deepcopy
 
 class Board:
     """ Rules of the game """
@@ -259,7 +260,7 @@ class Board:
                 elif self.board[i][j] == WHITE:
                     print 'W',
                 else:
-                    print 'E',
+                    print ' ',
                 print '|',
             print 
 
@@ -296,3 +297,22 @@ class Board:
 					diffBoard.board[i][j] = otherBoard.board[i][j]
 		return otherBoard
 
+    def get_adjacent_count( self, color ):
+        """ Return how many empty squares there are on the board adjacent to the specified color."""
+        adjCount = 0
+        for x,y in [(a,b) for a in range( 8 ) for b in range( 8 ) if self.board[a][b] == color]:
+            for i,j in [(a,b) for a in [-1,0,1] for b in [-1,0,1]]:
+                if 0 <= x+i <= 7 and 0 <= y+j <= 7:
+                    if self.board[x+i][y+j] == EMPTY:
+                        adjCount += 1
+        return adjCount
+
+    def next_states( self, color ):
+        """ Given a player's color return all the boards resulting from moves that this player
+        cand do. It's implemented as an iterator.
+        """
+        valid_moves = self.get_valid_moves( color )
+        for move in valid_moves:
+            newBoard = deepcopy( self )
+            newBoard.apply_move( move, color )
+            yield newBoard

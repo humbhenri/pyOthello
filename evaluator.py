@@ -1,4 +1,4 @@
-from config import BLACK, WHITE
+from config import BLACK, WHITE, EMPTY
 
 
 def change_color ( color ):
@@ -109,6 +109,28 @@ class Evaluator(object):
                             yourScore += 1
             return Evaluator.XSQUARE_WEIGHT[band] * ( myScore - yourScore )
         return 0
+
+    def get_potential_mobility_differential( self, startBoard, currentBoard, band ):
+        """ Return the difference between opponent and player number of frontier pieces.
+        startBoard - board before the move
+        currentBoard - board after the move
+        band - weight
+        """
+        if Evaluator.POTENTIAL_MOBILITY_WEIGHT[band] != 0:
+            myScore = currentBoard.get_adjacent_count( self.enemy ) - startBoard.get_adjacent_count( self.enemy )
+            yourScore = currentBoard.get_adjacent_count( self.player ) - startBoard.get_adjacent_count( self.player )
+            return Evaluator.POTENTIAL_MOBILITY_WEIGHT[band] * ( myScore - yourScore )
+        return 0
+
+    def get_mobility_differential( self, startBoard, currentBoard, band ):
+        """ Return the difference of number of valid moves between the player and his opponent.
+        startBoard - board before the move
+        currentBoard - board after the move
+        band - weight
+        """
+        myScore = len(currentBoard.get_valid_moves(self.player))-len(startBoard.get_valid_moves(self.player))
+        yourScore = len(currentBoard.get_valid_moves(self.enemy))-len(startBoard.get_valid_moves(self.enemy))
+        return Evaluator.MOBILITY_WEIGHT[band] * ( myScore - yourScore )
         
     def score( self, startBoard, board, currentDepth, searchDepth ):
         """ Determine the score of the given board for the specified player.
@@ -146,4 +168,6 @@ class Evaluator(object):
         sc += self.get_corner_differential( deltaCount, deltaBoard, band )
         sc += self.get_edge_differential( deltaCount, deltaBoard, band )
         sc += self.get_xsquare_differential( startBoard, board, deltaBoard, band )
+        sc += self.get_potential_mobility_differential( startBoard, board, band )
+        sc += self.get_mobility_differential( startBoard, board, band )
         return sc

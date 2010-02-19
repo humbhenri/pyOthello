@@ -3,9 +3,8 @@
 Human and Computer classes
 """
 
-import board
 import evaluator
-from config import *
+from config import WHITE, BLACK, INFINITY
 from copy import deepcopy
 import random
 
@@ -27,7 +26,7 @@ def change_color ( color ):
 def evaluate ( board, who ):
     """ Evaluate board, returns a score    
     """
-    bl_pie, wh_pie = board.count_stones()
+    wh_pie, bl_pie, empty = board.count_stones()
     if bl_pie + wh_pie > 60:
 	# Game is ending, prioritizes pieces difference
         if who == WHITE:
@@ -207,4 +206,3 @@ class RandomPlayer ( Computer ):
     def get_move ( self ):
         x = random.sample ( self.current_board.get_valid_moves ( self.color ), 1 )    
         return x[0]
-      
