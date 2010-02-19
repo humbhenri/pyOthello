@@ -28,9 +28,9 @@ class Board:
         return self.board[i][j]
     
     def lookup ( self, row, column, color ):        
-	""" Returns the possible positions that there exists at least one straight
-	(horizontal, vertical, or diagonal) line between the piece specified by (row,
-	column, color) and another piece of the same color."""
+    """ Returns the possible positions that there exists at least one straight
+    (horizontal, vertical, or diagonal) line between the piece specified by (row,
+    column, color) and another piece of the same color."""
         
         if color == BLACK:
             other = WHITE
@@ -42,7 +42,7 @@ class Board:
         if ( row < 0 or row > 7 or column < 0 or column > 7 ):
             return places            
 
-	# For each direction search for possible positions to put a piece.
+    # For each direction search for possible positions to put a piece.
 
         # north
         i = row - 1
@@ -132,10 +132,10 @@ class Board:
 
 
     def get_valid_moves ( self, color ):        
-	""" Get the avaiable positions to put a piece of the given color. For each
-	piece of the given color we search its neighbours, searching for pieces of the 
-	other color to determine if is possible to make a move. This method must be 
-	called before apply_move."""
+    """ Get the avaiable positions to put a piece of the given color. For each
+    piece of the given color we search its neighbours, searching for pieces of the 
+    other color to determine if is possible to make a move. This method must be 
+    called before apply_move."""
         
         if color == BLACK:
             other = WHITE
@@ -155,8 +155,8 @@ class Board:
 
 
     def apply_move ( self, move, color ):        
-	""" Determine if the move is correct and apply the changes in the game.
-	"""
+    """ Determine if the move is correct and apply the changes in the game.
+    """
         if move in self.valid_moves:                        
             self.board[move[0]][move[1]] = color                     
             for i in range ( 1, 9 ):
@@ -164,8 +164,8 @@ class Board:
         
                     
     def flip ( self, direction, position, color ):        
-	""" Flips (capturates) the pieces of the given color in the given direction
-	(1=North,2=Northeast...) from position. """
+    """ Flips (capturates) the pieces of the given color in the given direction
+    (1=North,2=Northeast...) from position. """
         
         if direction == 1:
             # north
@@ -228,7 +228,7 @@ class Board:
 
        
     def get_changes ( self ):
-	""" Return black and white counters. """
+    """ Return black and white counters. """
         
         whites, blacks, empty = self.count_stones()
 
@@ -248,10 +248,7 @@ class Board:
 
         return False
 
-
     def print_board ( self ):
-        """ Print the board: B - black, W - white, E - empty"""
-
         for i in range ( 8 ):
             print i, ' |',
             for j in range ( 8 ):                
@@ -282,20 +279,20 @@ class Board:
                     empty += 1
         return whites, blacks, empty
     
-	def compare( self, otherBoard ):
-		""" Return a board containing only the squares that are empty in one of the boards
-		and not empty on the other.
-		"""
-		diffBoard = Board()
-		diffBoard.board[3][4] = 0
-		diffBoard.board[3][3] = 0
-		diffBoard.board[4][3] = 0
-		diffBoard.board[4][4] = 0
-		for i in range( 8 ):
-			for j in range( 8 ):
-				if otherBoard.board[i][j] != self.board[i][j]:
-					diffBoard.board[i][j] = otherBoard.board[i][j]
-		return otherBoard
+    def compare( self, otherBoard ):
+        """ Return a board containing only the squares that are empty in one of the boards
+        and not empty on the other.
+        """
+        diffBoard = Board()
+        diffBoard.board[3][4] = 0
+        diffBoard.board[3][3] = 0
+        diffBoard.board[4][3] = 0
+        diffBoard.board[4][4] = 0
+        for i in range( 8 ):
+            for j in range( 8 ):
+                if otherBoard.board[i][j] != self.board[i][j]:
+                    diffBoard.board[i][j] = otherBoard.board[i][j]
+        return otherBoard
 
     def get_adjacent_count( self, color ):
         """ Return how many empty squares there are on the board adjacent to the specified color."""
