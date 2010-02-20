@@ -9,9 +9,7 @@ import time
 import ui
 import player
 import board
-
-BLACK = 1
-WHITE = 2
+from config import BLACK, WHITE
 
 class Othello:
     """ 
@@ -22,7 +20,6 @@ class Othello:
     def __init__( self ):
         """ Show options screen and start game modules
         """
-
         # start
         self.gui = ui.Gui()
         self.board = board.Board()
@@ -41,65 +38,26 @@ class Othello:
         self.gui.show_game()
 
     def run ( self ):
-        """ Execute the game """
-
-        quit = False
-
-        # main loop
-        while not quit:
-
-            self.now_playing.get_current_board ( self.board )
-            
-            # Color positions            
-            valid_moves = self.board.get_valid_moves( self.now_playing.color )
-            
-            for pos in valid_moves:
-                self.gui.put_stone ( pos, "tip_color" )
-                        
-            if valid_moves == []:
-		# there is no possible moves to this player, pass turn
-                self.now_playing, self.other_player = \
-                    self.other_player, self.now_playing
-		# if opponent also cannot do moves the game is over
-                valid_moves = self.board.get_valid_moves( self.now_playing.color )
-                if valid_moves == []:
-                    break
+        """ Execute the game """        
+        while True:
+            if self.board.game_ended():
+                break
+            self.now_playing.get_current_board ( self.board )              
+            if self.board.get_valid_moves( self.now_playing.color ) == []:
+                self.now_playing, self.other_player = self.other_player, self.now_playing
                 continue
-            # asks player to do a move
-            while True:
-                move = self.now_playing.get_move()            
-                if move in valid_moves:
-                    # ok, the move is valid
-                    break
-                            
-            # update board
-            self.board.apply_move ( move, self.now_playing.color )
-            
-            # update graphics
-            board, n_blacks, n_whites = self.board.get_changes()
-            self.gui.update ( board, n_blacks, n_whites )            
-            
-            # is the game ended?
-            quit = self.board.game_ended()            
+            score, self.board = self.now_playing.get_move()
+            whites, blacks, empty = self.board.count_stones()
+            self.gui.update( self.board.board, blacks, whites )
+            self.now_playing, self.other_player = self.other_player, self.now_playing
 
             # avoid 100% cpu load
-            time.sleep( .05 )            
-
-	    # erase helping move places
-            for pos in valid_moves:
-                if pos != move: 
-                    self.gui.clear_square ( pos )
-            
-            # pass turn
-            self.now_playing, self.other_player = \
-                self.other_player, self.now_playing
-
-        
+            time.sleep( .005 )
+             
         while True:
             self.gui.wait_quit()
             time.sleep ( .05 )
-
-
+       
 
 def main():
     game = Othello()

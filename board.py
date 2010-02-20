@@ -28,10 +28,10 @@ class Board:
         return self.board[i][j]
     
     def lookup ( self, row, column, color ):        
-    """ Returns the possible positions that there exists at least one straight
-    (horizontal, vertical, or diagonal) line between the piece specified by (row,
-    column, color) and another piece of the same color."""
-        
+        """ Returns the possible positions that there exists at least one straight
+        (horizontal, vertical, or diagonal) line between the piece specified by (row,
+        column, color) and another piece of the same color.
+        """    
         if color == BLACK:
             other = WHITE
         else:
@@ -132,10 +132,10 @@ class Board:
 
 
     def get_valid_moves ( self, color ):        
-    """ Get the avaiable positions to put a piece of the given color. For each
-    piece of the given color we search its neighbours, searching for pieces of the 
-    other color to determine if is possible to make a move. This method must be 
-    called before apply_move."""
+        """ Get the avaiable positions to put a piece of the given color. For each
+        piece of the given color we search its neighbours, searching for pieces of the 
+        other color to determine if is possible to make a move. This method must be 
+        called before apply_move."""
         
         if color == BLACK:
             other = WHITE
@@ -155,8 +155,8 @@ class Board:
 
 
     def apply_move ( self, move, color ):        
-    """ Determine if the move is correct and apply the changes in the game.
-    """
+        """ Determine if the move is correct and apply the changes in the game.
+        """
         if move in self.valid_moves:                        
             self.board[move[0]][move[1]] = color                     
             for i in range ( 1, 9 ):
@@ -164,8 +164,8 @@ class Board:
         
                     
     def flip ( self, direction, position, color ):        
-    """ Flips (capturates) the pieces of the given color in the given direction
-    (1=North,2=Northeast...) from position. """
+        """ Flips (capturates) the pieces of the given color in the given direction
+        (1=North,2=Northeast...) from position. """
         
         if direction == 1:
             # north
@@ -228,7 +228,7 @@ class Board:
 
        
     def get_changes ( self ):
-    """ Return black and white counters. """
+        """ Return black and white counters. """
         
         whites, blacks, empty = self.count_stones()
 
@@ -243,7 +243,7 @@ class Board:
             return True
 
         # no valid moves for both players
-        if self.valid_moves( BLACK ) == [] and self.valid_moves( WHITE ) == []:
+        if self.get_valid_moves( BLACK ) == [] and self.get_valid_moves( WHITE ) == []:
             return True
 
         return False

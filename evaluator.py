@@ -1,12 +1,5 @@
 from config import BLACK, WHITE, EMPTY
 
-
-def change_color ( color ):
-    if color == BLACK:
-        return WHITE
-    else:
-        return BLACK
-
 class Evaluator(object):    
     WIPEOUT_SCORE = 1000    #a move that results a player losing all pieces
     PIECE_COUNT_WEIGHT = [0, 0, 0, 4, 1]
@@ -16,10 +9,6 @@ class Evaluator(object):
     EDGE_WEIGHT = [0, 3, 4, 5, 0]
     XSQUARE_WEIGHT = [-8, -8, -8, -8, 0]
     
-    def __init__( self, player ):       
-        self.player = player
-        self.enemy = change_color( player )
-
     def get_piece_differential( self, deltaBoard, band ):
         """ Return the piece differential score
         Given a board resultant of the difference between the initial board and the board
@@ -27,8 +16,13 @@ class Evaluator(object):
         gained minus the same count for the opponent.
         """
         if Evaluator.PIECE_COUNT_WEIGHT[band] != 0:
-            myScore = deltaBoard.get_count(self.player)
-            yourScore = deltaBoard.get_count(self.enemy)
+            whites, blacks, empty = deltaBoard.count_stones()
+            if self.player == WHITE:
+                myScore = whites
+                yourScore = blacks
+            else:
+                myScore = blacks
+                yourScore = whites
             return Evaluator.PIECE_COUNT_WEIGHT[band] * ( myScore - yourScore )
         return 0
 
@@ -132,13 +126,17 @@ class Evaluator(object):
         yourScore = len(currentBoard.get_valid_moves(self.enemy))-len(startBoard.get_valid_moves(self.enemy))
         return Evaluator.MOBILITY_WEIGHT[band] * ( myScore - yourScore )
         
-    def score( self, startBoard, board, currentDepth, searchDepth ):
+    def score( self, startBoard, board, currentDepth, player, opponent ):
         """ Determine the score of the given board for the specified player.
         - startBoard the board before any move is made
         - board the board to score
         - currentDepth depth of this leaf in the game tree
-        - searchDepth depth used for searches. 
+        - searchDepth depth used for searches.
+        - player current player's color
+        - opponent opponent's color
         """
+        self.player = player
+        self.enemy = opponent
         sc = 0
         whites, blacks, empty = board.count_stones()
         deltaBoard = board.compare( startBoard )        
