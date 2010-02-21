@@ -12,6 +12,7 @@ class Minimax( object ):
         """
         self.heuristic_eval = heuristic_eval
 
+    # error: always return the same board in same cases
     def minimax( self, board, parentBoard, depth, player, opponent, alfa=-INFINITY, beta=INFINITY):
         bestChild = board
         if depth == 0:
@@ -24,4 +25,6 @@ class Minimax( object ):
                 bestChild = child
             if beta <= alfa:
                 break
-        return alfa, bestChild
+        return (self.heuristic_eval( board, board, depth, player, opponent), bestChild)
+ 
+        

@@ -7,12 +7,9 @@ import pygame
 import sys
 from pygame.locals import *
 import time
-import os
+from config import BLACK, WHITE
 
 if not pygame.font: print 'Warning, fonts disabled'
-
-BLACK = 1
-WHITE = 2
 
 class Gui :
 
@@ -101,9 +98,21 @@ class Gui :
 
             pygame.display.flip()
             # desafoga a cpu
-            time.sleep ( .05 )
 
-
+            
+    def show_winner( self, player_color ):
+        self.screen.fill( pygame.Color( 0, 0, 0, 50 ))
+        font = pygame.font.SysFont( "Courier New", 34 )
+        if player_color == WHITE:
+            msg = font.render( "White player wins", True, self.YELLOW )
+        elif player_color == BLACK:
+            msg = font.render( "Black player wins", True, self.YELLOW )
+        else:
+            msg = font.render( "Tie !", True, self.YELLOW )
+        self.screen.blit( msg, msg.get_rect( centerx = self.screen.get_width()/2, centery = 120))
+        pygame.display.flip()
+        
+        
     def get_chosen_player( self ):
         """ Asks for a player 
         """
@@ -135,8 +144,6 @@ class Gui :
                         return "computer"
                    
             pygame.display.flip()
-            # avoids 100% cpu load
-            time.sleep ( .05 )      
             
     
     def get_chosen_level ( self ):

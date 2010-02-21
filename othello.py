@@ -5,7 +5,7 @@ Game initialization and main loop
  
 """
 
-import time  
+import pygame
 import ui
 import player
 import board
@@ -18,8 +18,7 @@ class Othello:
 	
     
     def __init__( self ):
-        """ Show options screen and start game modules
-        """
+        """ Show options screen and start game modules"""
         # start
         self.gui = ui.Gui()
         self.board = board.Board()
@@ -37,28 +36,30 @@ class Othello:
                         
         self.gui.show_game()
 
+        
     def run ( self ):
-        """ Execute the game """        
+        clock = pygame.time.Clock()
         while True:
+            clock.tick( 60 )
             if self.board.game_ended():
+                whites, blacks, empty = self.board.count_stones()
+                if whites > blacks:
+                    winner = WHITE
+                elif blacks > whites:
+                    winner = BLACK
+                else:
+                    winner = None
                 break
             self.now_playing.get_current_board ( self.board )              
             if self.board.get_valid_moves( self.now_playing.color ) == []:
                 self.now_playing, self.other_player = self.other_player, self.now_playing
-                continue
-            score, self.board = self.now_playing.get_move()
-            whites, blacks, empty = self.board.count_stones()
-            self.gui.update( self.board.board, blacks, whites )
-            self.now_playing, self.other_player = self.other_player, self.now_playing
-
-            # avoid 100% cpu load
-            time.sleep( .005 )
-             
-        while True:
-            self.gui.wait_quit()
-            time.sleep ( .05 )
+            else:
+                score, self.board = self.now_playing.get_move()
+                whites, blacks, empty = self.board.count_stones()
+                self.gui.update( self.board.board, blacks, whites )
+                self.now_playing, self.other_player = self.other_player, self.now_playing
+        self.gui.show_winner( winner )
        
-
 def main():
     game = Othello()
     game.run()
