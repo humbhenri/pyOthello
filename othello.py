@@ -22,17 +22,19 @@ class Othello:
         # start
         self.gui = ui.Gui()
         self.board = board.Board()
-        
+        self.get_options()
+
+    def get_options( self ):
         # set up players
         player1, player2, level = self.gui.show_options()
         if player1 == "human":
             self.now_playing = player.Human ( self.gui, BLACK )
         else:
-            self.now_playing = player.Computer ( BLACK, level+1 )
+            self.now_playing = player.Computer ( BLACK, level+2 )
         if player2 == "human":
             self.other_player = player.Human ( self.gui, WHITE )
         else:
-            self.other_player = player.Computer ( WHITE, level+1 )
+            self.other_player = player.Computer ( WHITE, level+2 )
                         
         self.gui.show_game()
 
@@ -59,6 +61,13 @@ class Othello:
                 self.gui.update( self.board.board, blacks, whites )
                 self.now_playing, self.other_player = self.other_player, self.now_playing
         self.gui.show_winner( winner )
+        pygame.time.wait( 1000 )
+        self.restart()
+
+    def restart( self ):
+        self.board = board.Board()
+        self.get_options()
+        self.run()
        
 def main():
     game = Othello()
