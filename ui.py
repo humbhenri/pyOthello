@@ -44,7 +44,6 @@ class Gui :
         self.tip_img = pygame.image.load ( "tip.bmp" ).convert()
         self.clear_img = pygame.image.load ( "nada.bmp").convert()
 
-
     def show_options ( self ):
         """ Shows game options screen and returns chosen options
         """
@@ -188,8 +187,6 @@ class Gui :
             # desafoga a cpu
             time.sleep ( .05 )
 
-                    
-
     def show_game ( self ):
         """ Game screen. """
         
@@ -275,10 +272,15 @@ class Gui :
             time.sleep ( .05 )
         
            
-    def update ( self, board, blacks, whites):
+    def update ( self, board, blacks, whites, nowPlayingColor):
         """Updates screen
         """
-
+        if nowPlayingColor == BLACK:
+            blackPlayerColor = self.YELLOW
+            whitePlayerColor = self.BLUE
+        else:
+            blackPlayerColor = self.BLUE
+            whitePlayerColor = self.YELLOW
         for i in range ( 8 ):
             for j in range ( 8 ):
                 if board[i][j] != 0:
@@ -287,10 +289,14 @@ class Gui :
         # updates score   
         blacks_str = '%02d ' % int ( blacks )
         whites_str = '%02d ' % int ( whites )
-        text = self.font.render( blacks_str,True,self.YELLOW, self.BLACK )
-        text2 = self.font.render( whites_str,True,self.YELLOW, self.BLACK )        
-        self.screen.blit ( text, ( self.BLACK_LAB_POS[0], self.BLACK_LAB_POS[1] + 40) )
-        self.screen.blit ( text2, ( self.WHITE_LAB_POS[0], self.WHITE_LAB_POS[1] + 40) )
+        title = self.font.render ( "BLACK", True, blackPlayerColor )
+        title2 = self.font.render ( "WHITE", True, whitePlayerColor )
+        text = self.font.render( blacks_str,True, blackPlayerColor, self.BLACK )
+        text2 = self.font.render( whites_str,True, whitePlayerColor, self.BLACK )        
+        self.screen.blit( text, ( self.BLACK_LAB_POS[0], self.BLACK_LAB_POS[1] + 40) )
+        self.screen.blit( text2, ( self.WHITE_LAB_POS[0], self.WHITE_LAB_POS[1] + 40) )
+        self.screen.blit( title, self.BLACK_LAB_POS )
+        self.screen.blit( title2, self.WHITE_LAB_POS )
         pygame.display.flip()
 
 
