@@ -8,6 +8,7 @@ import sys
 from pygame.locals import *
 import time
 from config import BLACK, WHITE
+import os
 
 if not pygame.font: print 'Warning, fonts disabled'
 
@@ -38,11 +39,11 @@ class Gui :
         self.font = pygame.font.SysFont ( "Times New Roman" , 22 )
 
         # image files
-        self.board_img = pygame.image.load ( "board.bmp" ).convert()
-        self.black_img = pygame.image.load ( "preta.bmp" ).convert()
-        self.white_img = pygame.image.load ( "branca.bmp" ).convert()
-        self.tip_img = pygame.image.load ( "tip.bmp" ).convert()
-        self.clear_img = pygame.image.load ( "nada.bmp").convert()
+        self.board_img = pygame.image.load (os.path.join("res", "board.bmp")).convert()
+        self.black_img = pygame.image.load (os.path.join("res", "preta.bmp")).convert()
+        self.white_img = pygame.image.load (os.path.join("res", "branca.bmp")).convert()
+        self.tip_img = pygame.image.load (os.path.join("res","tip.bmp")).convert()
+        self.clear_img = pygame.image.load (os.path.join("res","nada.bmp")).convert()
 
     def show_options ( self ):
         """ Shows game options screen and returns chosen options
