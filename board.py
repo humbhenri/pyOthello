@@ -248,6 +248,7 @@ class Board:
 
         return False
 
+
     def print_board ( self ):
         for i in range ( 8 ):
             print i, ' |',
@@ -278,6 +279,7 @@ class Board:
                 else:
                     empty += 1
         return whites, blacks, empty
+
     
     def compare( self, otherBoard ):
         """ Return a board containing only the squares that are empty in one of the boards
@@ -294,6 +296,7 @@ class Board:
                     diffBoard.board[i][j] = otherBoard.board[i][j]
         return otherBoard
 
+
     def get_adjacent_count( self, color ):
         """ Return how many empty squares there are on the board adjacent to the specified color."""
         adjCount = 0
@@ -303,6 +306,7 @@ class Board:
                     if self.board[x+i][y+j] == EMPTY:
                         adjCount += 1
         return adjCount
+
 
     def next_states( self, color ):
         """ Given a player's color return all the boards resulting from moves that this player

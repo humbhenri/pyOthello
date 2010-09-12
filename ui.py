@@ -6,7 +6,7 @@ import pygame
 import sys
 from pygame.locals import *
 import time
-from config import BLACK, WHITE
+from config import BLACK, WHITE, DEFAULT_LEVEL, HUMAN, COMPUTER
 import os
 
 class Gui :
@@ -46,9 +46,9 @@ class Gui :
         """ Shows game options screen and returns chosen options
         """
         # default values
-        player1 = "human"
-        player2 = "computer"
-        level = 2
+        player1 = HUMAN
+        player2 = COMPUTER
+        level = DEFAULT_LEVEL
        
         while True:
             self.screen.fill ( self.BACKGROUND )
@@ -136,9 +136,9 @@ class Gui :
                 elif event.type == MOUSEBUTTONDOWN:
                     ( mouse_x, mouse_y ) = pygame.mouse.get_pos()
                     if human_pos.collidepoint ( mouse_x, mouse_y ):
-                        return "human"
+                        return HUMAN
                     elif comp_pos.collidepoint ( mouse_x, mouse_y ):
-                        return "computer"
+                        return COMPUTER
                    
             pygame.display.flip()
             
