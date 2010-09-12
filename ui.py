@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """ Othello game GUI
     Humberto Henrique Campos Pinheiro
 """
@@ -10,8 +9,6 @@ import time
 from config import BLACK, WHITE
 import os
 
-if not pygame.font: print 'Warning, fonts disabled'
-
 class Gui :
 
     def __init__ ( self ):
@@ -22,21 +19,22 @@ class Gui :
         # colors
         self.BLACK = ( 0, 0, 0 )
         self.BLUE = ( 0, 0, 255 )
-        self.YELLOW = ( 255, 255, 0 )
+        self.BACKGROUND = ( 0, 0, 255 )
         self.WHITE = ( 255, 255, 255 )
 
         # display
         self.SCREEN_SIZE = ( 640, 480 )
-        self.BOARD_POS = ( 175, 20 )
-        self.BOARD = ( 195, 40 )
+        self.BOARD_POS = ( 100, 20 )
+        self.BOARD = ( 120, 40 )
         self.BOARD_SIZE = 400
         self.SQUARE_SIZE = 50
         self.screen = pygame.display.set_mode ( self.SCREEN_SIZE )
 
         # messages
-        self.BLACK_LAB_POS = ( 30, self.SCREEN_SIZE[1]/4 )
-        self.WHITE_LAB_POS = ( 30, self.SCREEN_SIZE[1] * 0.75 )
-        self.font = pygame.font.SysFont ( "Times New Roman" , 22 )
+        self.BLACK_LAB_POS = ( 5, self.SCREEN_SIZE[1]/4 )
+        self.WHITE_LAB_POS = ( 560, self.SCREEN_SIZE[1]/4 )
+        self.font = pygame.font.SysFont ( "Times New Roman" , 22)
+        self.scoreFont = pygame.font.SysFont ( "Serif", 58 )
 
         # image files
         self.board_img = pygame.image.load (os.path.join("res", "board.bmp")).convert()
@@ -54,10 +52,10 @@ class Gui :
         level = 2
        
         while True:
-            self.screen.fill ( self.BLACK )
+            self.screen.fill ( self.BACKGROUND )
 
             title_fnt = pygame.font.SysFont ( "Times New Roman", 34 )
-            title = title_fnt.render ( "Othello", True, self.BLUE )
+            title = title_fnt.render ( "Othello", True, self.WHITE )
             title_pos = title.get_rect ( centerx = self.screen.get_width()/2, \
                                          centery = 60 )
 
@@ -104,11 +102,11 @@ class Gui :
         self.screen.fill( pygame.Color( 0, 0, 0, 50 ))
         font = pygame.font.SysFont( "Courier New", 34 )
         if player_color == WHITE:
-            msg = font.render( "White player wins", True, self.YELLOW )
+            msg = font.render( "White player wins", True, self.WHITE )
         elif player_color == BLACK:
-            msg = font.render( "Black player wins", True, self.YELLOW )
+            msg = font.render( "Black player wins", True, self.WHITE )
         else:
-            msg = font.render( "Tie !", True, self.YELLOW )
+            msg = font.render( "Tie !", True, self.WHITE )
         self.screen.blit( msg, msg.get_rect( centerx = self.screen.get_width()/2, centery = 120))
         pygame.display.flip()
         
@@ -117,7 +115,7 @@ class Gui :
         """ Asks for a player 
         """
         while True:
-            self.screen.fill ( self.BLACK )
+            self.screen.fill ( self.BACKGROUND )
             title_fnt = pygame.font.SysFont ( "Times New Roman", 34 )
             title = title_fnt.render ( "Othello", True, self.BLUE )
             title_pos = title.get_rect ( centerx = self.screen.get_width()/2, \
@@ -151,7 +149,7 @@ class Gui :
         """
 
         while True:
-            self.screen.fill ( self.BLACK )
+            self.screen.fill ( self.BACKGROUND )
             title_fnt = pygame.font.SysFont ( "Times New Roman", 34 )
             title = title_fnt.render ( "Othello", True, self.BLUE )
             title_pos = title.get_rect ( centerx = self.screen.get_width()/2, \
@@ -192,16 +190,11 @@ class Gui :
         """ Game screen. """
         
         # draws initial screen
-        pygame.display.set_caption ( "Othello" )
-        text = self.font.render ( "BLACK", True, self.YELLOW )
-        text2 = self.font.render ( "WHITE", True, self.YELLOW )
         self.background = pygame.Surface ( self.screen.get_size() ).convert()
-        self.background.fill ( self.BLACK )
+        self.background.fill ( self.BACKGROUND )
         self.score_size = 50
         self.score1 = pygame.Surface ( ( self.score_size, self.score_size ) ) 
         self.score2 = pygame.Surface ( ( self.score_size, self.score_size ) ) 
-        self.background.blit ( text, self.BLACK_LAB_POS )
-        self.background.blit ( text2, self.WHITE_LAB_POS )
         self.screen.blit ( self.background, ( 0, 0 ), self.background.get_rect() )
         self.screen.blit ( self.board_img, self.BOARD_POS, self.board_img.get_rect() )
         self.put_stone ( ( 3, 3 ), WHITE ) 
@@ -276,29 +269,23 @@ class Gui :
     def update ( self, board, blacks, whites, nowPlayingColor):
         """Updates screen
         """
-        if nowPlayingColor == BLACK:
-            blackPlayerColor = self.YELLOW
-            whitePlayerColor = self.BLUE
-        else:
-            blackPlayerColor = self.BLUE
-            whitePlayerColor = self.YELLOW
         for i in range ( 8 ):
             for j in range ( 8 ):
                 if board[i][j] != 0:
                     self.put_stone ( ( i, j ), board[i][j] )
 
-        # updates score   
         blacks_str = '%02d ' % int ( blacks )
         whites_str = '%02d ' % int ( whites )
-        title = self.font.render ( "BLACK", True, blackPlayerColor )
-        title2 = self.font.render ( "WHITE", True, whitePlayerColor )
-        text = self.font.render( blacks_str,True, blackPlayerColor, self.BLACK )
-        text2 = self.font.render( whites_str,True, whitePlayerColor, self.BLACK )        
+        self.showScore(blacks_str, whites_str)
+        pygame.display.flip()
+
+
+    def showScore(self, blackStr, whiteStr):
+        text = self.scoreFont.render( blackStr,True, self.BLACK, self.BACKGROUND )
+        text2 = self.scoreFont.render( whiteStr,True, self.WHITE, self.BACKGROUND )        
         self.screen.blit( text, ( self.BLACK_LAB_POS[0], self.BLACK_LAB_POS[1] + 40) )
         self.screen.blit( text2, ( self.WHITE_LAB_POS[0], self.WHITE_LAB_POS[1] + 40) )
-        self.screen.blit( title, self.BLACK_LAB_POS )
-        self.screen.blit( title2, self.WHITE_LAB_POS )
-        pygame.display.flip()
+
 
 
     def wait_quit ( self ):
