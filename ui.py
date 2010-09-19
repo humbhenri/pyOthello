@@ -265,7 +265,7 @@ class Gui :
             time.sleep ( .05 )
         
            
-    def update ( self, board, blacks, whites, nowPlayingColor):
+    def update ( self, board, blacks, whites):
         """Updates screen
         """
         for i in range ( 8 ):
