@@ -2,19 +2,20 @@
 """
 othello.py Humberto Henrique Campos Pinheiro
 Game initialization and main loop
- 
+
 """
 
 import pygame
+import pygame._view     #py2exe bug
 import ui
 import player
 import board
 from config import BLACK, WHITE
 
 class Othello:
-    """ 
-    Game main class.	
-    """    
+    """
+    Game main class.
+    """
     def __init__( self ):
         """ Show options screen and start game modules"""
         # start
@@ -33,11 +34,11 @@ class Othello:
             self.other_player = player.Human ( self.gui, WHITE )
         else:
             self.other_player = player.Computer ( WHITE, level+3 )
-                        
+
         self.gui.show_game()
         self.gui.update(self.board.board, 2, 2)
 
-        
+
     def run ( self ):
         clock = pygame.time.Clock()
         while True:
@@ -51,7 +52,7 @@ class Othello:
                 else:
                     winner = None
                 break
-            self.now_playing.get_current_board ( self.board )              
+            self.now_playing.get_current_board ( self.board )
             if self.board.get_valid_moves( self.now_playing.color ) != []:
                 score, self.board = self.now_playing.get_move()
                 whites, blacks, empty = self.board.count_stones()
@@ -65,12 +66,12 @@ class Othello:
         self.board = board.Board()
         self.get_options()
         self.run()
-       
+
 def main():
     game = Othello()
     game.run()
 
 if __name__ == '__main__':
-    main() 
+    main()
 
 
