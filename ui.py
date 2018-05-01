@@ -21,6 +21,7 @@ class Gui:
         self.BLACK = (0, 0, 0)
         self.BACKGROUND = (0, 0, 255)
         self.WHITE = (255, 255, 255)
+        self.BLUE = (0, 0, 255)
 
         # display
         self.SCREEN_SIZE = (640, 480)
@@ -121,7 +122,7 @@ class Gui:
         while True:
             self.screen.fill(self.BACKGROUND)
             title_fnt = pygame.font.SysFont("Times New Roman", 34)
-            title = title_fnt.render("Othello", True, self.BLUE)
+            title = title_fnt.render("Othello", True, Color(0, 0, 255))
             title_pos = title.get_rect(centerx=self.screen.get_width() / 2,
                                        centery=60)
             human_txt = self.font.render("Human", True, self.WHITE)
