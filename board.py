@@ -252,16 +252,16 @@ class Board:
 
     def print_board(self):
         for i in range(8):
-            print i, ' |',
+            print(i, ' |', end=' ')
             for j in range(8):
                 if self.board[i][j] == BLACK:
-                    print 'B',
+                    print('B', end=' ')
                 elif self.board[i][j] == WHITE:
-                    print 'W',
+                    print('W', end=' ')
                 else:
-                    print ' ',
-                print '|',
-            print
+                    print(' ', end=' ')
+                print('|', end=' ')
+            print()
 
     def count_stones(self):
         """ Returns the number of white pieces, black pieces and empty squares, in

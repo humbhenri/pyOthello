@@ -27,16 +27,16 @@ class Human:
     def get_move(self):
         """ Uses gui to handle mouse
         """
-        validMoves = self.currentBoard.get_valid_moves(self.color)
+        validMoves = self.current_board.get_valid_moves(self.color)
         while True:
             move = self.gui.get_mouse_input()
             if move in validMoves:
                 break
-        self.currentBoard.apply_move(move, self.color)
-        return 0, self.currentBoard
+        self.current_board.apply_move(move, self.color)
+        return 0, self.current_board
 
     def get_current_board(self, board):
-        self.currentBoard = board
+        self.current_board = board
 
 
 class Computer(object):
@@ -48,10 +48,10 @@ class Computer(object):
         self.color = color
 
     def get_current_board(self, board):
-        self.currentBoard = board
+        self.current_board = board
 
     def get_move(self):
-        return self.minimaxObj.minimax(self.currentBoard, None, self.depthLimit, self.color,
+        return self.minimaxObj.minimax(self.current_board, None, self.depthLimit, self.color,
                                        change_color(self.color))
 
 

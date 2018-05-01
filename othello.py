@@ -12,10 +12,10 @@ import board
 from config import BLACK, WHITE
 
 # py2exe workaround
-import sys
-import os
-sys.stdout = open(os.devnull, 'w')
-sys.stderr = open(os.devnull, 'w')
+# import sys
+# import os
+# sys.stdout = open(os.devnull, 'w')
+# sys.stderr = open(os.devnull, 'w')
 
 
 class Othello:

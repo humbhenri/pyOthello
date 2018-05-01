@@ -64,8 +64,8 @@ class Evaluator(object):
         if Evaluator.EDGE_WEIGHT[band] != 0:
             myScore = 0
             yourScore = 0
-            squares = [(a, b) for a in [0, 7] for b in xrange(1, 7)] \
-                + [(a, b) for a in xrange(1, 7) for b in [0, 7]]
+            squares = [(a, b) for a in [0, 7] for b in range(1, 7)] \
+                + [(a, b) for a in range(1, 7) for b in [0, 7]]
             for x, y in squares:
                 if deltaBoard.board[x][y] == self.player:
                     myScore += 1

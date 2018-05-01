@@ -256,8 +256,8 @@ class Gui:
                         continue
 
                     # find place
-                    position = ( (mouse_x - self.BOARD[0]) / self.SQUARE_SIZE), \
-                               ((mouse_y - self.BOARD[1]) / self.SQUARE_SIZE)
+                    position = ( (mouse_x - self.BOARD[0]) // self.SQUARE_SIZE), \
+                               ((mouse_y - self.BOARD[1]) // self.SQUARE_SIZE)
                     # flip orientation
                     position = (position[1], position[0])
                     return position
