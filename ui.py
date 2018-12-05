@@ -22,6 +22,7 @@ class Gui:
         self.BACKGROUND = (0, 0, 255)
         self.WHITE = (255, 255, 255)
         self.BLUE = (0, 0, 255)
+        self.YELLOW = (255, 255, 0)
 
         # display
         self.SCREEN_SIZE = (640, 480)
@@ -117,7 +118,7 @@ class Gui:
         pygame.display.flip()
 
     def get_chosen_player(self):
-        """ Asks for a player 
+        """ Asks for a player
         """
         while True:
             self.screen.fill(self.BACKGROUND)
@@ -257,7 +258,7 @@ class Gui:
                         continue
 
                     # find place
-                    position = ( (mouse_x - self.BOARD[0]) // self.SQUARE_SIZE), \
+                    position = ((mouse_x - self.BOARD[0]) // self.SQUARE_SIZE), \
                                ((mouse_y - self.BOARD[1]) // self.SQUARE_SIZE)
                     # flip orientation
                     position = (position[1], position[0])
@@ -268,7 +269,7 @@ class Gui:
 
             time.sleep(.05)
 
-    def update(self, board, blacks, whites):
+    def update(self, board, blacks, whites, current_player_color):
         """Updates screen
         """
         for i in range(8):
@@ -278,14 +279,16 @@ class Gui:
 
         blacks_str = '%02d ' % int(blacks)
         whites_str = '%02d ' % int(whites)
-        self.showScore(blacks_str, whites_str)
+        self.showScore(blacks_str, whites_str, current_player_color)
         pygame.display.flip()
 
-    def showScore(self, blackStr, whiteStr):
+    def showScore(self, blackStr, whiteStr, current_player_color):
+        black_background = self.YELLOW if current_player_color == WHITE else self.BACKGROUND
+        white_background = self.YELLOW if current_player_color == BLACK else self.BACKGROUND  
         text = self.scoreFont.render(
-            blackStr, True, self.BLACK, self.BACKGROUND)
+            blackStr, True, self.BLACK, black_background)
         text2 = self.scoreFont.render(
-            whiteStr, True, self.WHITE, self.BACKGROUND)
+            whiteStr, True, self.WHITE, white_background)
         self.screen.blit(
             text, (self.BLACK_LAB_POS[0], self.BLACK_LAB_POS[1] + 40))
         self.screen.blit(
