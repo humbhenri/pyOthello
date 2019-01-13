@@ -19,7 +19,6 @@ from config import BLACK, WHITE
 
 
 class Othello:
-
     """
     Game main class.
     """
@@ -63,7 +62,8 @@ class Othello:
             if self.board.get_valid_moves(self.now_playing.color) != []:
                 score, self.board = self.now_playing.get_move()
                 whites, blacks, empty = self.board.count_stones()
-                self.gui.update(self.board.board, blacks, whites, self.now_playing.color)
+                self.gui.update(self.board.board, blacks, whites,
+                                self.now_playing.color)
             self.now_playing, self.other_player = self.other_player, self.now_playing
         self.gui.show_winner(winner)
         pygame.time.wait(1000)
@@ -78,6 +78,7 @@ class Othello:
 def main():
     game = Othello()
     game.run()
+
 
 if __name__ == '__main__':
     main()

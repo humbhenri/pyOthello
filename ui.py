@@ -11,7 +11,6 @@ import os
 
 
 class Gui:
-
     def __init__(self):
         """ Initializes graphics. """
 
@@ -22,7 +21,7 @@ class Gui:
         self.BACKGROUND = (0, 0, 255)
         self.WHITE = (255, 255, 255)
         self.BLUE = (0, 0, 255)
-        self.YELLOW = (255, 255, 0)
+        self.YELLOW = (128, 128, 0)
 
         # display
         self.SCREEN_SIZE = (640, 480)
@@ -39,16 +38,16 @@ class Gui:
         self.scoreFont = pygame.font.SysFont("Serif", 58)
 
         # image files
-        self.board_img = pygame.image.load(
-            os.path.join("res", "board.bmp")).convert()
-        self.black_img = pygame.image.load(
-            os.path.join("res", "preta.bmp")).convert()
-        self.white_img = pygame.image.load(
-            os.path.join("res", "branca.bmp")).convert()
-        self.tip_img = pygame.image.load(
-            os.path.join("res", "tip.bmp")).convert()
-        self.clear_img = pygame.image.load(
-            os.path.join("res", "nada.bmp")).convert()
+        self.board_img = pygame.image.load(os.path.join(
+            "res", "board.bmp")).convert()
+        self.black_img = pygame.image.load(os.path.join(
+            "res", "preta.bmp")).convert()
+        self.white_img = pygame.image.load(os.path.join(
+            "res", "branca.bmp")).convert()
+        self.tip_img = pygame.image.load(os.path.join("res",
+                                                      "tip.bmp")).convert()
+        self.clear_img = pygame.image.load(os.path.join("res",
+                                                        "nada.bmp")).convert()
 
     def show_options(self):
         """ Shows game options screen and returns chosen options
@@ -63,21 +62,21 @@ class Gui:
 
             title_fnt = pygame.font.SysFont("Times New Roman", 34)
             title = title_fnt.render("Othello", True, self.WHITE)
-            title_pos = title.get_rect(centerx=self.screen.get_width() / 2,
-                                       centery=60)
+            title_pos = title.get_rect(
+                centerx=self.screen.get_width() / 2, centery=60)
 
             start_txt = self.font.render("Start", True, self.WHITE)
-            start_pos = start_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                           centery=220)
+            start_pos = start_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=220)
             player1_txt = self.font.render("First Player", True, self.WHITE)
-            player1_pos = player1_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                               centery=260)
+            player1_pos = player1_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=260)
             player2_txt = self.font.render("Second Player", True, self.WHITE)
-            player2_pos = player2_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                               centery=300)
+            player2_pos = player2_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=300)
             level_txt = self.font.render("Computer Level", True, self.WHITE)
-            level_pos = level_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                           centery=340)
+            level_pos = level_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=340)
             human_txt = self.font.render("Human", True, self.WHITE)
             comp_txt = self.font.render("Computer", True, self.WHITE)
 
@@ -114,7 +113,8 @@ class Gui:
         else:
             msg = font.render("Tie !", True, self.WHITE)
         self.screen.blit(
-            msg, msg.get_rect(centerx=self.screen.get_width() / 2, centery=120))
+            msg, msg.get_rect(
+                centerx=self.screen.get_width() / 2, centery=120))
         pygame.display.flip()
 
     def get_chosen_player(self):
@@ -124,14 +124,14 @@ class Gui:
             self.screen.fill(self.BACKGROUND)
             title_fnt = pygame.font.SysFont("Times New Roman", 34)
             title = title_fnt.render("Othello", True, Color(0, 0, 255))
-            title_pos = title.get_rect(centerx=self.screen.get_width() / 2,
-                                       centery=60)
+            title_pos = title.get_rect(
+                centerx=self.screen.get_width() / 2, centery=60)
             human_txt = self.font.render("Human", True, self.WHITE)
-            human_pos = human_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                           centery=120)
+            human_pos = human_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=120)
             comp_txt = self.font.render("Computer", True, self.WHITE)
-            comp_pos = comp_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                         centery=360)
+            comp_pos = comp_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=360)
 
             self.screen.blit(title, title_pos)
             self.screen.blit(human_txt, human_pos)
@@ -157,18 +157,18 @@ class Gui:
             self.screen.fill(self.BACKGROUND)
             title_fnt = pygame.font.SysFont("Times New Roman", 34)
             title = title_fnt.render("Othello", True, self.BLUE)
-            title_pos = title.get_rect(centerx=self.screen.get_width() / 2,
-                                       centery=60)
+            title_pos = title.get_rect(
+                centerx=self.screen.get_width() / 2, centery=60)
             one_txt = self.font.render("Level 1", True, self.WHITE)
-            one_pos = one_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                       centery=120)
+            one_pos = one_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=120)
             two_txt = self.font.render("Level 2", True, self.WHITE)
-            two_pos = two_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                       centery=240)
+            two_pos = two_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=240)
 
             three_txt = self.font.render("Level 3", True, self.WHITE)
-            three_pos = three_txt.get_rect(centerx=self.screen.get_width() / 2,
-                                           centery=360)
+            three_pos = three_txt.get_rect(
+                centerx=self.screen.get_width() / 2, centery=360)
 
             self.screen.blit(title, title_pos)
             self.screen.blit(one_txt, one_pos)
@@ -201,8 +201,8 @@ class Gui:
         self.score1 = pygame.Surface((self.score_size, self.score_size))
         self.score2 = pygame.Surface((self.score_size, self.score_size))
         self.screen.blit(self.background, (0, 0), self.background.get_rect())
-        self.screen.blit(
-            self.board_img, self.BOARD_POS, self.board_img.get_rect())
+        self.screen.blit(self.board_img, self.BOARD_POS,
+                         self.board_img.get_rect())
         self.put_stone((3, 3), WHITE)
         self.put_stone((4, 4), WHITE)
         self.put_stone((3, 4), BLACK)
@@ -284,15 +284,15 @@ class Gui:
 
     def showScore(self, blackStr, whiteStr, current_player_color):
         black_background = self.YELLOW if current_player_color == WHITE else self.BACKGROUND
-        white_background = self.YELLOW if current_player_color == BLACK else self.BACKGROUND  
-        text = self.scoreFont.render(
-            blackStr, True, self.BLACK, black_background)
-        text2 = self.scoreFont.render(
-            whiteStr, True, self.WHITE, white_background)
-        self.screen.blit(
-            text, (self.BLACK_LAB_POS[0], self.BLACK_LAB_POS[1] + 40))
-        self.screen.blit(
-            text2, (self.WHITE_LAB_POS[0], self.WHITE_LAB_POS[1] + 40))
+        white_background = self.YELLOW if current_player_color == BLACK else self.BACKGROUND
+        text = self.scoreFont.render(blackStr, True, self.BLACK,
+                                     black_background)
+        text2 = self.scoreFont.render(whiteStr, True, self.WHITE,
+                                      white_background)
+        self.screen.blit(text,
+                         (self.BLACK_LAB_POS[0], self.BLACK_LAB_POS[1] + 40))
+        self.screen.blit(text2,
+                         (self.WHITE_LAB_POS[0], self.WHITE_LAB_POS[1] + 40))
 
     def wait_quit(self):
         # wait user to close window
