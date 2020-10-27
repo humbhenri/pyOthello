@@ -8,7 +8,7 @@ from pygame.locals import *
 import time
 from config import BLACK, WHITE, DEFAULT_LEVEL, HUMAN, COMPUTER
 import os
-
+import pygame_menu
 
 class Gui:
     def __init__(self):
@@ -49,59 +49,26 @@ class Gui:
         self.clear_img = pygame.image.load(os.path.join("res",
                                                         "nada.bmp")).convert()
 
-    def show_options(self):
-        """ Shows game options screen and returns chosen options
-        """
-        # default values
-        player1 = HUMAN
-        player2 = COMPUTER
-        level = DEFAULT_LEVEL
+    def show_menu(self, start_cb):
+        # default game settings
+        self.level = DEFAULT_LEVEL
+        self.player1 = HUMAN
+        self.player2 = COMPUTER
 
-        while True:
-            self.screen.fill(self.BACKGROUND)
+        self.menu = pygame_menu.Menu(300, 400, 'Othello',
+                                     theme=pygame_menu.themes.THEME_BLUE)
+        self.menu.add_button('Play', lambda: start_cb(self.player1, self.player2, self.level))
+        self.menu.add_selector('Difficulty: ', [['Medium', 2], ['Easy', 1], ('Hard', 3)],
+                               onchange=self.set_difficulty)
+        self.menu.mainloop(self.screen)
 
-            title_fnt = pygame.font.SysFont("Times New Roman", 34)
-            title = title_fnt.render("Othello", True, self.WHITE)
-            title_pos = title.get_rect(
-                centerx=self.screen.get_width() / 2, centery=60)
+    def reset_menu(self):
+        self.menu.disable()
+        self.menu.reset(1)
 
-            start_txt = self.font.render("Start", True, self.WHITE)
-            start_pos = start_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=220)
-            player1_txt = self.font.render("First Player", True, self.WHITE)
-            player1_pos = player1_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=260)
-            player2_txt = self.font.render("Second Player", True, self.WHITE)
-            player2_pos = player2_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=300)
-            level_txt = self.font.render("Computer Level", True, self.WHITE)
-            level_pos = level_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=340)
-            human_txt = self.font.render("Human", True, self.WHITE)
-            comp_txt = self.font.render("Computer", True, self.WHITE)
 
-            self.screen.blit(title, title_pos)
-            self.screen.blit(start_txt, start_pos)
-            self.screen.blit(player1_txt, player1_pos)
-            self.screen.blit(player2_txt, player2_pos)
-            self.screen.blit(level_txt, level_pos)
-
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
-                elif event.type == MOUSEBUTTONDOWN:
-                    (mouse_x, mouse_y) = pygame.mouse.get_pos()
-                    if start_pos.collidepoint(mouse_x, mouse_y):
-                        return (player1, player2, level)
-                    elif player1_pos.collidepoint(mouse_x, mouse_y):
-                        player1 = self.get_chosen_player()
-                    elif player2_pos.collidepoint(mouse_x, mouse_y):
-                        player2 = self.get_chosen_player()
-                    elif level_pos.collidepoint(mouse_x, mouse_y):
-                        level = self.get_chosen_level()
-
-            pygame.display.flip()
-            # desafoga a cpu
+    def set_difficulty(self, value, difficulty):
+        self.level = difficulty
 
     def show_winner(self, player_color):
         self.screen.fill(pygame.Color(0, 0, 0, 50))
@@ -117,82 +84,9 @@ class Gui:
                 centerx=self.screen.get_width() / 2, centery=120))
         pygame.display.flip()
 
-    def get_chosen_player(self):
-        """ Asks for a player
-        """
-        while True:
-            self.screen.fill(self.BACKGROUND)
-            title_fnt = pygame.font.SysFont("Times New Roman", 34)
-            title = title_fnt.render("Othello", True, Color(0, 0, 255))
-            title_pos = title.get_rect(
-                centerx=self.screen.get_width() / 2, centery=60)
-            human_txt = self.font.render("Human", True, self.WHITE)
-            human_pos = human_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=120)
-            comp_txt = self.font.render("Computer", True, self.WHITE)
-            comp_pos = comp_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=360)
-
-            self.screen.blit(title, title_pos)
-            self.screen.blit(human_txt, human_pos)
-            self.screen.blit(comp_txt, comp_pos)
-
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
-                elif event.type == MOUSEBUTTONDOWN:
-                    (mouse_x, mouse_y) = pygame.mouse.get_pos()
-                    if human_pos.collidepoint(mouse_x, mouse_y):
-                        return HUMAN
-                    elif comp_pos.collidepoint(mouse_x, mouse_y):
-                        return COMPUTER
-
-            pygame.display.flip()
-
-    def get_chosen_level(self):
-        """ Level options
-        """
-
-        while True:
-            self.screen.fill(self.BACKGROUND)
-            title_fnt = pygame.font.SysFont("Times New Roman", 34)
-            title = title_fnt.render("Othello", True, self.BLUE)
-            title_pos = title.get_rect(
-                centerx=self.screen.get_width() / 2, centery=60)
-            one_txt = self.font.render("Level 1", True, self.WHITE)
-            one_pos = one_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=120)
-            two_txt = self.font.render("Level 2", True, self.WHITE)
-            two_pos = two_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=240)
-
-            three_txt = self.font.render("Level 3", True, self.WHITE)
-            three_pos = three_txt.get_rect(
-                centerx=self.screen.get_width() / 2, centery=360)
-
-            self.screen.blit(title, title_pos)
-            self.screen.blit(one_txt, one_pos)
-            self.screen.blit(two_txt, two_pos)
-            self.screen.blit(three_txt, three_pos)
-
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
-                elif event.type == MOUSEBUTTONDOWN:
-                    (mouse_x, mouse_y) = pygame.mouse.get_pos()
-                    if one_pos.collidepoint(mouse_x, mouse_y):
-                        return 1
-                    elif two_pos.collidepoint(mouse_x, mouse_y):
-                        return 2
-                    elif three_pos.collidepoint(mouse_x, mouse_y):
-                        return 3
-
-            pygame.display.flip()
-            # desafoga a cpu
-            time.sleep(.05)
-
     def show_game(self):
         """ Game screen. """
+        self.reset_menu()
 
         # draws initial screen
         self.background = pygame.Surface(self.screen.get_size()).convert()

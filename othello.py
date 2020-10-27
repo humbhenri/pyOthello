@@ -9,7 +9,10 @@ import pygame
 import ui
 import player
 import board
-from config import BLACK, WHITE
+from config import BLACK, WHITE, HUMAN
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 # py2exe workaround
 # import sys
@@ -28,16 +31,16 @@ class Othello:
         # start
         self.gui = ui.Gui()
         self.board = board.Board()
-        self.get_options()
+        self.gui.show_menu(self.start)
 
-    def get_options(self):
-        # set up players
-        player1, player2, level = self.gui.show_options()
-        if player1 == "human":
+    def start(self, *args):
+        player1, player2, level = args
+        logging.info('Settings: player 1: %s, player 2: %s, level: %s ', player1, player2, level)
+        if player1 == HUMAN:
             self.now_playing = player.Human(self.gui, BLACK)
         else:
             self.now_playing = player.Computer(BLACK, level + 3)
-        if player2 == "human":
+        if player2 == HUMAN:
             self.other_player = player.Human(self.gui, WHITE)
         else:
             self.other_player = player.Computer(WHITE, level + 3)
@@ -71,7 +74,7 @@ class Othello:
 
     def restart(self):
         self.board = board.Board()
-        self.get_options()
+        self.gui.show_menu(self.start)
         self.run()
 
 
