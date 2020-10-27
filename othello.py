@@ -62,7 +62,8 @@ class Othello:
                     winner = None
                 break
             self.now_playing.get_current_board(self.board)
-            if self.board.get_valid_moves(self.now_playing.color) != []:
+            valid_moves = self.board.get_valid_moves(self.now_playing.color)
+            if valid_moves != []:
                 score, self.board = self.now_playing.get_move()
                 whites, blacks, empty = self.board.count_stones()
                 self.gui.update(self.board.board, blacks, whites,

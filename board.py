@@ -43,96 +43,36 @@ class Board:
 
         places = []
 
-        if (row < 0 or row > 7 or column < 0 or column > 7):
+        if row < 0 or row > 7 or column < 0 or column > 7:
             return places
 
-    # For each direction search for possible positions to put a piece.
-
-        # north
-        i = row - 1
-        if (i >= 0 and self.board[i][column] == other):
-            i = i - 1
-            while (i >= 0 and self.board[i][column] == other):
-                i = i - 1
-            if (i >= 0 and self.board[i][column] == 0):
-                places = places + [(i, column)]
-
-        # northeast
-        i = row - 1
-        j = column + 1
-        if (i >= 0 and j < 8 and self.board[i][j] == other):
-            i = i - 1
-            j = j + 1
-            while (i >= 0 and j < 8 and self.board[i][j] == other):
-                i = i - 1
-                j = j + 1
-            if (i >= 0 and j < 8 and self.board[i][j] == 0):
-                places = places + [(i, j)]
-
-        # east
-        j = column + 1
-        if (j < 8 and self.board[row][j] == other):
-            j = j + 1
-            while (j < 8 and self.board[row][j] == other):
-                j = j + 1
-            if (j < 8 and self.board[row][j] == 0):
-                places = places + [(row, j)]
-
-        # southeast
-        i = row + 1
-        j = column + 1
-        if (i < 8 and j < 8 and self.board[i][j] == other):
-            i = i + 1
-            j = j + 1
-            while (i < 8 and j < 8 and self.board[i][j] == other):
-                i = i + 1
-                j = j + 1
-            if (i < 8 and j < 8 and self.board[i][j] == 0):
-                places = places + [(i, j)]
-
-        # south
-        i = row + 1
-        if (i < 8 and self.board[i][column] == other):
-            i = i + 1
-            while (i < 8 and self.board[i][column] == other):
-                i = i + 1
-            if (i < 8 and self.board[i][column] == 0):
-                places = places + [(i, column)]
-
-        # southwest
-        i = row + 1
-        j = column - 1
-        if (i < 8 and j >= 0 and self.board[i][j] == other):
-            i = i + 1
-            j = j - 1
-            while (i < 8 and j >= 0 and self.board[i][j] == other):
-                i = i + 1
-                j = j - 1
-            if (i < 8 and j >= 0 and self.board[i][j] == 0):
-                places = places + [(i, j)]
-
-        # west
-        j = column - 1
-        if (j >= 0 and self.board[row][j] == other):
-            j = j - 1
-            while (j >= 0 and self.board[row][j] == other):
-                j = j - 1
-            if (j >= 0 and self.board[row][j] == 0):
-                places = places + [(row, j)]
-
-        # northwest
-        i = row - 1
-        j = column - 1
-        if (i >= 0 and j >= 0 and self.board[i][j] == other):
-            i = i - 1
-            j = j - 1
-            while (i >= 0 and j >= 0 and self.board[i][j] == other):
-                i = i - 1
-                j = j - 1
-            if (i >= 0 and j >= 0 and self.board[i][j] == 0):
-                places = places + [(i, j)]
-
+        # For each direction search for possible positions to put a piece.
+        for (x, y) in [
+                (-1, 0),
+                (-1, 1),
+                (0, 1),
+                (1, 1),
+                (1, 0),
+                (1, -1),
+                (0, -1),
+                (-1, -1)
+            ]:
+            pos = self.check_direction(row, column, x, y, other)
+            if pos:
+                places.append(pos)
         return places
+
+    def check_direction(self, row, column, row_add, column_add, other_color):
+        i = row + row_add
+        j = column + column_add
+        if (i >= 0 and j >= 0 and i < 8 and j < 8 and self.board[i][j] == other_color):
+            i += row_add
+            j += column_add
+            while (i >= 0 and j >= 0 and i < 8 and j < 8 and self.board[i][j] == other_color):
+                i += row_add
+                j += column_add
+            if (i >= 0 and j >= 0 and i < 8 and j < 8 and self.board[i][j] == EMPTY):
+                return (i, j)
 
     def get_valid_moves(self, color):
         """Get the avaiable positions to put a piece of the given color. For

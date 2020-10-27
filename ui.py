@@ -209,3 +209,8 @@ class Gui:
                 sys.exit(0)
             elif event.type == KEYDOWN:
                 break
+
+    def show_valid_moves(self, valid_moves):
+        logger.debug('valid movies: %s', valid_moves)
+        for move in valid_moves:
+            self.put_stone(move, 'tip')
