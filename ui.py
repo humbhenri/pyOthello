@@ -9,6 +9,9 @@ import time
 from config import BLACK, WHITE, DEFAULT_LEVEL, HUMAN, COMPUTER
 import os
 import pygame_menu
+import logging
+
+logger = logging.getLogger('root')
 
 class Gui:
     def __init__(self):
@@ -60,12 +63,23 @@ class Gui:
         self.menu.add_button('Play', lambda: start_cb(self.player1, self.player2, self.level))
         self.menu.add_selector('Difficulty: ', [['Medium', 2], ['Easy', 1], ('Hard', 3)],
                                onchange=self.set_difficulty)
+        self.menu.add_selector('First player', [[HUMAN, 1] ,[COMPUTER, 2]],
+                               onchange=self.set_player_1)
+        self.menu.add_selector('Second player', [[COMPUTER, 2], [HUMAN, 1]],
+                               onchange=self.set_player_2)
         self.menu.mainloop(self.screen)
+
+    def set_player_1(self, value, player):
+        logger.debug('value:%s, player:%s', value, player)
+        self.player1 = [0, HUMAN, COMPUTER][player]
+
+    def set_player_2(self, value, player):
+        logger.debug('value:%s, player:%s', value, player)
+        self.player2 = [0, HUMAN, COMPUTER][player]
 
     def reset_menu(self):
         self.menu.disable()
         self.menu.reset(1)
-
 
     def set_difficulty(self, value, difficulty):
         self.level = difficulty

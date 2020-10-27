@@ -10,9 +10,9 @@ import ui
 import player
 import board
 from config import BLACK, WHITE, HUMAN
-import logging
+import log
 
-logging.basicConfig(level=logging.DEBUG)
+logger = log.setup_custom_logger('root')
 
 # py2exe workaround
 # import sys
@@ -35,7 +35,7 @@ class Othello:
 
     def start(self, *args):
         player1, player2, level = args
-        logging.info('Settings: player 1: %s, player 2: %s, level: %s ', player1, player2, level)
+        logger.info('Settings: player 1: %s, player 2: %s, level: %s ', player1, player2, level)
         if player1 == HUMAN:
             self.now_playing = player.Human(self.gui, BLACK)
         else:
