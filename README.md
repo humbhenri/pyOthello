@@ -21,7 +21,7 @@ Before you begin, make sure you have the following installed on your system:
 1. **Clone the Repository**:
 
     ```bash
-    git clone https://github.com/humbhenri/pyothello.git
+    git clone https://github.com/humbhenri/pyOthello.git
     cd pyothelo
     ```
 
