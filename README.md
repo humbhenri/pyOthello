@@ -20,25 +20,25 @@ Before you begin, make sure you have the following installed on your system:
 
 1. **Clone the Repository**:
 
-    ```bash
-    git clone https://github.com/humbhenri/pyOthello.git
-    cd pyothelo
-    ```
+   ```bash
+   git clone https://github.com/humbhenri/pyOthello.git
+   cd pyothelo
+   ```
 
 2. **Set Up a Virtual Environment** (optional but recommended):
 
-    ```bash
-    python -m venv env
-    source env/bin/activate
-    ```
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate
+   ```
 
 3. **Install Dependencies**:
 
-    Install the required Python packages, including Pygame:
+   Install the required Python packages, including Pygame:
 
-    ```bash
-    python -m pip install -r requirements.txt
-    ```
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
 ## Running the Game
 
@@ -48,5 +48,13 @@ After installing the dependencies, you can run the game using the following comm
 python othello.py
 ```
 
+### Running with nix
+
+```bash
+nix-shell
+python othello.py
+```
+
 ## License
+
 GPL
